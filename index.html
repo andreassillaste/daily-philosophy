@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daily Philosophy</title>
+<meta name="description" content="A new philosophy quote every day.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#e8ebef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11151c" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Philosophy">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); color-scheme: light; }
+body { margin: 0; -webkit-text-size-adjust: 100%; }
+/* Layout: one reading column; dateline above, the quote as the page, citation + a 2,600-year timeline below */
+:root {
+  --bg: #e8ebef;
+  --surface: #f4f6f8;
+  --ink: #18202c;
+  --muted: #5b6676;
+  --rule: #c6cdd7;
+  --accent: #2a43a0;
+  --display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11151c; --surface: #181d26; --ink: #e4e8ee; --muted: #8f9aab; --rule: #2b3340; --accent: #8fa3ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11151c; --surface: #181d26; --ink: #e4e8ee; --muted: #8f9aab; --rule: #2b3340; --accent: #8fa3ff;
+  color-scheme: dark;
+}
+html, body { min-height: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: clamp(24px, 6vh, 64px);
+}
+main { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(28px, 5vh, 48px); }
+
+.dateline {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px;
+  border-bottom: 1px solid var(--rule); padding-bottom: 14px;
+}
+.brand { font-family: var(--display); font-size: 1.5rem; letter-spacing: .01em; }
+.brand em { color: var(--accent); }
+.count { color: var(--accent); white-space: nowrap; }
+.count::before { content: "· "; color: var(--muted); }
+.date { font-family: var(--mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+figure { margin: 0; display: flex; flex-direction: column; gap: 28px; }
+blockquote {
+  margin: 0; font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.9rem, 5.2vw, 3.2rem); line-height: 1.12; letter-spacing: -.005em;
+  text-wrap: balance; position: relative;
+}
+blockquote::before {
+  content: "\201C"; color: var(--accent); font-style: italic;
+  display: block; font-size: 1.6em; line-height: .6; margin-bottom: .1em;
+}
+blockquote.long { font-size: clamp(1.5rem, 3.8vw, 2.3rem); line-height: 1.2; }
+figcaption { display: flex; flex-direction: column; gap: 4px; }
+.author { font-size: 1.05rem; font-weight: 500; }
+.source { font-family: var(--display); font-style: italic; font-size: 1.15rem; color: var(--muted); }
+.cite { font-family: var(--mono); font-size: .75rem; color: var(--muted); letter-spacing: .04em; }
+
+.timeline { display: flex; flex-direction: column; gap: 8px; }
+.timeline-label { font-family: var(--mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.track { position: relative; height: 22px; }
+.track::before { content: ""; position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: var(--rule); }
+.tick { position: absolute; top: 6px; width: 1px; height: 9px; background: var(--rule); }
+.life { position: absolute; top: 7px; height: 7px; min-width: 7px; border-radius: 4px; background: var(--accent); transition: left .5s ease, width .5s ease; }
+.scale { position: relative; height: 14px; font-family: var(--mono); font-size: .66rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.scale span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.scale span:first-child { transform: none; }
+.scale span:last-child { transform: translateX(-100%); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border-top: 1px solid var(--rule); padding-top: 18px; }
+.controls .spacer { flex: 1; }
+button {
+  font: 500 .85rem/1 var(--body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 10px 16px; cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:disabled { opacity: .4; cursor: default; }
+button.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+button.primary:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.status { font-family: var(--mono); font-size: .72rem; color: var(--muted); min-height: 1em; }
+
+.fade { animation: in .45s ease both; }
+@keyframes in { from { opacity: .25; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .fade { animation: none; } .life { transition: none; } }
+</style>
+</head>
+<body>
+
+<main>
+  <header class="dateline">
+    <div class="brand">Daily <em>Philosophy</em></div>
+    <div class="date"><span id="date"></span> <span class="count" id="count"></span></div>
+  </header>
+
+  <figure id="card">
+    <blockquote id="quote"></blockquote>
+    <figcaption>
+      <span class="author" id="author"></span>
+      <span class="source" id="source"></span>
+      <span class="cite" id="cite"></span>
+    </figcaption>
+  </figure>
+
+  <section class="timeline" aria-label="When this thinker lived">
+    <div class="timeline-label" id="tl-label">Lived</div>
+    <div class="track" id="track"><div class="life" id="life"></div></div>
+    <div class="scale" id="scale"></div>
+  </section>
+
+  <nav class="controls" aria-label="Browse days">
+    <button id="prev" type="button">← Previous day</button>
+    <button id="next" type="button">Next day →</button>
+    <button id="today" type="button" class="primary">Today</button>
+    <span class="spacer"></span>
+    <span class="status" id="status" role="status"></span>
+    <button id="copy" type="button">Copy quote</button>
+  </nav>
+</main>
+
+<script>
+// [text, author, born, died, work, citation]  (negative years = BCE)
+const Q = [
+  ["The unexamined life is not worth living.", "Socrates", -470, -399, "Plato, Apology", "38a"],
+  ["Waste no more time arguing about what a good man should be. Be one.", "Marcus Aurelius", 121, 180, "Meditations", "Book X.16"],
+  ["We suffer more often in imagination than in reality.", "Seneca", -4, 65, "Letters to Lucilius", "Letter 13.4"],
+  ["Men are disturbed not by things, but by the views which they take of things.", "Epictetus", 50, 135, "Enchiridion", "§5"],
+  ["I think, therefore I am.", "René Descartes", 1596, 1650, "Discourse on the Method", "Part IV, 1637"],
+  ["Man is condemned to be free.", "Jean-Paul Sartre", 1905, 1980, "Existentialism Is a Humanism", "1946"],
+  ["If we have our own why in life, we shall get along with almost any how.", "Friedrich Nietzsche", 1844, 1900, "Twilight of the Idols", "Maxims and Arrows §12, 1889"],
+  ["The limits of my language mean the limits of my world.", "Ludwig Wittgenstein", 1889, 1951, "Tractatus Logico-Philosophicus", "5.6, 1921"],
+  ["One must imagine Sisyphus happy.", "Albert Camus", 1913, 1960, "The Myth of Sisyphus", "1942"],
+  ["Life can only be understood backwards; but it must be lived forwards.", "Søren Kierkegaard", 1813, 1855, "Journals", "1843"],
+  ["One swallow does not make a summer, nor does one day; and so too one day, or a short time, does not make a man blessed and happy.", "Aristotle", -384, -322, "Nicomachean Ethics", "I.7, 1098a"],
+  ["And the life of man, solitary, poor, nasty, brutish, and short.", "Thomas Hobbes", 1588, 1679, "Leviathan", "Ch. XIII, 1651"],
+  ["Man is born free, and everywhere he is in chains.", "Jean-Jacques Rousseau", 1712, 1778, "The Social Contract", "Book I.1, 1762"],
+  ["Two things fill the mind with ever new and increasing admiration and awe: the starry heavens above me and the moral law within me.", "Immanuel Kant", 1724, 1804, "Critique of Practical Reason", "Conclusion, 1788"],
+  ["Reason is, and ought only to be the slave of the passions.", "David Hume", 1711, 1776, "A Treatise of Human Nature", "2.3.3, 1739"],
+  ["The owl of Minerva spreads its wings only with the falling of the dusk.", "G. W. F. Hegel", 1770, 1831, "Philosophy of Right", "Preface, 1820"],
+  ["The philosophers have only interpreted the world, in various ways; the point is to change it.", "Karl Marx", 1818, 1883, "Theses on Feuerbach", "Thesis XI, 1845"],
+  ["One is not born, but rather becomes, a woman.", "Simone de Beauvoir", 1908, 1986, "The Second Sex", "Vol. II, 1949"],
+  ["The heart has its reasons which reason knows nothing of.", "Blaise Pascal", 1623, 1662, "Pensées", "§277, 1670"],
+  ["All the unhappiness of men arises from one single fact, that they cannot stay quietly in their own chamber.", "Blaise Pascal", 1623, 1662, "Pensées", "§139, 1670"],
+  ["A journey of a thousand miles begins beneath one's feet.", "Laozi", -571, -471, "Tao Te Ching", "Ch. 64 (traditional dates)"],
+  ["When you know a thing, to hold that you know it; and when you do not know a thing, to allow that you do not know it: this is knowledge.", "Confucius", -551, -479, "Analects", "2.17"],
+  ["It is not possible to step twice into the same river.", "Heraclitus", -535, -475, "Fragments", "DK B91"],
+  ["Death is nothing to us; for that which is dissolved is without sensation, and that which lacks sensation is nothing to us.", "Epicurus", -341, -270, "Principal Doctrines", "II"],
+  ["It is not that we have a short time to live, but that we waste a lot of it.", "Seneca", -4, 65, "On the Shortness of Life", "§1"],
+  ["Hell is other people.", "Jean-Paul Sartre", 1905, 1980, "No Exit", "1944"],
+  ["Over himself, over his own body and mind, the individual is sovereign.", "John Stuart Mill", 1806, 1873, "On Liberty", "Ch. I, 1859"],
+  ["Wonder is the feeling of a philosopher, and philosophy begins in wonder.", "Plato", -428, -348, "Theaetetus", "155d"],
+  ["All things excellent are as difficult as they are rare.", "Baruch Spinoza", 1632, 1677, "Ethics", "Part V, Prop. 42, Scholium"],
+  ["The greatest thing in the world is to know how to belong to oneself.", "Michel de Montaigne", 1533, 1592, "Essays", "I.39, “Of Solitude”"],
+  ["The sad truth is that most evil is done by people who never make up their minds to be good or evil.", "Hannah Arendt", 1906, 1975, "The Life of the Mind", "1978"],
+  ["Attention is the rarest and purest form of generosity.", "Simone Weil", 1909, 1943, "Letter to Joë Bousquet", "13 April 1942"],
+  ["Love is the extremely difficult realisation that something other than oneself is real.", "Iris Murdoch", 1919, 1999, "The Sublime and the Good", "1959"],
+  ["Once Zhuang Zhou dreamt he was a butterfly. Suddenly he woke, and did not know whether he was Zhou who had dreamt he was a butterfly, or a butterfly dreaming he was Zhou.", "Zhuangzi", -369, -286, "Zhuangzi", "Ch. 2, “On the Equality of Things”"],
+  ["The good life is one inspired by love and guided by knowledge.", "Bertrand Russell", 1872, 1970, "What I Believe", "1925"],
+  ["Every man takes the limits of his own field of vision for the limits of the world.", "Arthur Schopenhauer", 1788, 1860, "Parerga and Paralipomena", "1851"],
+  ["If you gaze long into an abyss, the abyss also gazes into you.", "Friedrich Nietzsche", 1844, 1900, "Beyond Good and Evil", "§146, 1886"],
+  ["Nothing is miserable unless you think it so.", "Boethius", 477, 524, "The Consolation of Philosophy", "Book II, Prose 4"],
+  ["Our heart is restless until it rests in you.", "Augustine of Hippo", 354, 430, "Confessions", "Book I.1"],
+  ["Mind precedes all mental states. Mind is their chief; they are all mind-wrought.", "The Buddha (attributed)", -563, -483, "Dhammapada", "Verse 1"],
+  ["Sapere aude! Have courage to use your own understanding.", "Immanuel Kant", 1724, 1804, "What Is Enlightenment?", "1784"],
+  ["I do not wish them to have power over men; but over themselves.", "Mary Wollstonecraft", 1759, 1797, "A Vindication of the Rights of Woman", "Ch. IV, 1792"],
+  ["The mass of men lead lives of quiet desperation.", "Henry David Thoreau", 1817, 1862, "Walden", "“Economy”, 1854"],
+  ["A foolish consistency is the hobgoblin of little minds.", "Ralph Waldo Emerson", 1803, 1882, "Self-Reliance", "1841"],
+  ["No man's knowledge here can go beyond his experience.", "John Locke", 1632, 1704, "An Essay Concerning Human Understanding", "II.1.19, 1689"],
+  ["Knowledge itself is power.", "Francis Bacon", 1561, 1626, "Meditationes Sacrae", "1597"],
+  ["Our knowledge can only be finite, while our ignorance must necessarily be infinite.", "Karl Popper", 1902, 1994, "Conjectures and Refutations", "1963"],
+  ["No man is free who is not master of himself.", "Epictetus", 50, 135, "Fragments", "Fr. 35"],
+  ["The impediment to action advances action. What stands in the way becomes the way.", "Marcus Aurelius", 121, 180, "Meditations", "Book V.20"],
+  ["The beginning is the most important part of the work.", "Plato", -428, -348, "Republic", "Book II, 377a"],
+  ["The great man is he who does not lose his child's heart.", "Mencius", -372, -289, "Mencius", "4B.12"],
+  ["Whereof one cannot speak, thereof one must be silent.", "Ludwig Wittgenstein", 1889, 1951, "Tractatus Logico-Philosophicus", "7, 1921"],
+  ["In the depth of winter, I finally learned that within me there lay an invincible summer.", "Albert Camus", 1913, 1960, "Return to Tipasa", "1952"],
+  ["Anxiety is the dizziness of freedom.", "Søren Kierkegaard", 1813, 1855, "The Concept of Anxiety", "1844"],
+  ["Be a lamp unto yourself.", "The Buddha (attributed)", -563, -483, "Mahaparinibbana Sutta", "DN 16"],
+  ["Happiness is not an ideal of reason, but of imagination.", "Immanuel Kant", 1724, 1804, "Groundwork of the Metaphysics of Morals", "4:418, 1785"],
+  ["Custom, then, is the great guide of human life.", "David Hume", 1711, 1776, "An Enquiry Concerning Human Understanding", "§5, 1748"],
+  ["The present is big with the future.", "Gottfried Wilhelm Leibniz", 1646, 1716, "New Essays on Human Understanding", "Preface, c. 1704"],
+  ["Man is by nature a political animal.", "Aristotle", -384, -322, "Politics", "I.2, 1253a"],
+  ["While we are postponing, life speeds by.", "Seneca", -4, 65, "Letters to Lucilius", "Letter 1.3"],
+  ["First say to yourself what you would be; and then do what you have to do.", "Epictetus", 50, 135, "Discourses", "III.23"],
+  ["Very little is needed to make a happy life; it is all within yourself, in your way of thinking.", "Marcus Aurelius", 121, 180, "Meditations", "Book VII.67"],
+  ["Knowing others is wisdom; knowing yourself is enlightenment.", "Laozi", -571, -471, "Tao Te Ching", "Ch. 33 (traditional dates)"],
+  ["What you do not want done to yourself, do not do to others.", "Confucius", -551, -479, "Analects", "15.24"],
+  ["Plurality is the condition of human action because we are all the same, that is, human, in such a way that nobody is ever the same as anyone else who ever lived, lives, or will live.", "Hannah Arendt", 1906, 1975, "The Human Condition", "1958"],
+  ["The art of being wise is the art of knowing what to overlook.", "William James", 1842, 1910, "The Principles of Psychology", "Ch. XXII, 1890"]
+];
+
+// Fixed shuffle so consecutive days jump across eras, the same for every viewer.
+function seeded(seed) { return () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296; }
+const order = Q.map((_, i) => i);
+{ const r = seeded(20261101); for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; } }
+// The season opens with wonder and closes with Kierkegaard on New Year's Eve.
+const pin = (text, pos) => { const qi = Q.findIndex(q => q[0].startsWith(text)); const at = order.indexOf(qi); order.splice(at, 1); order.splice(pos, 0, qi); };
+pin("Wonder is the feeling", 0);
+pin("Life can only be understood backwards", 60);
+
+const DAY = 86400000;
+const dayNum = d => Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / DAY);
+const todayNum = () => dayNum(new Date());
+// Season: 1 November to 31 December 2026, one different quote per day.
+const START = Math.floor(Date.UTC(2026, 10, 1) / DAY), END = Math.floor(Date.UTC(2026, 11, 31) / DAY);
+const SEASON = END - START + 1; // 61 days
+const quoteFor = n => { const i = n - START; return Q[order[((i % Q.length) + Q.length) % Q.length]]; };
+
+const fmtYear = y => y < 0 ? `${-y} BCE` : `${y} CE`;
+const fmtLife = (b, d) => (b < 0 && d < 0) ? `${-b}–${-d} BCE` : (b < 0 ? `${-b} BCE – ${d} CE` : `${b}–${d}`);
+
+// Timeline: 600 BCE to 2000 CE
+const T0 = -600, T1 = 2000, pct = y => ((y - T0) / (T1 - T0)) * 100;
+const track = document.getElementById("track"), scale = document.getElementById("scale");
+[-600, 0, 500, 1000, 1500, 2000].forEach(y => {
+  const t = document.createElement("div"); t.className = "tick"; t.style.left = pct(y) + "%"; track.appendChild(t);
+  const s = document.createElement("span"); s.style.left = pct(y) + "%"; s.textContent = y === 0 ? "0" : fmtYear(y).replace(" CE", ""); scale.appendChild(s);
+});
+
+let view = todayNum();
+const $ = id => document.getElementById(id);
+
+function render(animate) {
+  const [text, author, b, d, work, cite] = quoteFor(view);
+  const date = new Date(view * DAY);
+  $("date").textContent = date.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+  $("quote").textContent = text;
+  $("quote").classList.toggle("long", text.length > 110);
+  $("author").textContent = author;
+  $("source").textContent = work;
+  $("cite").textContent = cite;
+  $("tl-label").textContent = `Lived ${fmtLife(b, d)}`;
+  $("life").style.left = pct(b) + "%";
+  $("life").style.width = Math.max(pct(d) - pct(b), 0.3) + "%";
+  const isToday = view === todayNum();
+  const dn = view - START + 1;
+  $("count").textContent = dn >= 1 && dn <= SEASON ? `Day ${dn} of ${SEASON}` : "";
+  $("prev").disabled = view <= START;
+  $("next").disabled = isToday;
+  $("today").disabled = isToday;
+  $("status").textContent = "";
+  if (animate) { const c = $("card"); c.classList.remove("fade"); void c.offsetWidth; c.classList.add("fade"); }
+}
+
+$("prev").onclick = () => { if (view > START) { view--; render(true); } };
+$("next").onclick = () => { if (view < todayNum()) { view++; render(true); } };
+$("today").onclick = () => { view = todayNum(); render(true); };
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") $("prev").click();
+  if (e.key === "ArrowRight") $("next").click();
+});
+$("copy").onclick = () => {
+  const [text, author, , , work] = quoteFor(view);
+  const str = `“${text}” — ${author}, ${work}`;
+  const done = () => { $("status").textContent = "Copied"; };
+  try {
+    navigator.clipboard.writeText(str).then(done, () => selectQuote());
+  } catch { selectQuote(); }
+};
+function selectQuote() {
+  const r = document.createRange(); r.selectNodeContents($("card"));
+  const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  $("status").textContent = "Selected — press Ctrl+C to copy";
+}
+
+render(false);
+// Roll over to the new quote at midnight if the page stays open.
+let lastToday = todayNum();
+setInterval(() => {
+  const t = todayNum();
+  if (t !== lastToday) { if (view === lastToday) view = t; lastToday = t; render(true); }
+}, 60000);
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+// Refresh the quote when the app is reopened on a new day.
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    const t = todayNum();
+    if (t !== lastToday) { if (view === lastToday) view = t; lastToday = t; render(false); }
+  }
+});
+</script>
+</body>
+</html>
