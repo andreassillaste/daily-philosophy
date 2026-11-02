@@ -1,5 +1,5 @@
 // Bump this when you change any file, so phones pick up the new version.
-const VERSION = "v2";
+const VERSION = "v3";
 const CORE = ["./", "index.html", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 
